@@ -152,9 +152,9 @@ Buka browser ke **http://127.0.0.1:8000**
 
 | Role | Email | Password |
 |---|---|---|
-| Administrator | `admin@laundry.com` | `password hubungi pemilik repo` |
-| Operator | `operator@laundry.com` | `password hubungi pemilik repo` |
-| Pimpinan | `pimpinan@laundry.com` | `password hubungi pemilik repo` |
+| Administrator | `admin@laundry.com` | `admin123` |
+| Operator | `operator@laundry.com` | `operator123` |
+| Pimpinan | `pimpinan@laundry.com` | `pimpinan123` |
 
 > ⚠️ Disarankan mengganti password default ini sebelum digunakan di lingkungan produksi.
 
