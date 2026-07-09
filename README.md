@@ -12,6 +12,7 @@ Aplikasi ini mengelola alur bisnis laundry secara end-to-end: pendataan customer
 - Kelola master data **Customer** (tambah, edit, hapus)
 - Kelola master data **User** — termasuk menambahkan akun baru dengan level Operator/Pimpinan
 - Kelola master data **Jenis Service** laundry beserta harga per kg
+- Kelola Semua Fitur **Fitur Yang Ada** pemegang hak akses tertinggi
 
 ### 🧑‍🔧 Operator
 - Membuat **transaksi laundry** baru:
@@ -64,30 +65,11 @@ Customer datang
 |---|---|
 | Backend | Laravel 13 (PHP) |
 | Database | MySQL |
-| Frontend | Blade Template + Tailwind CSS v4 (via Vite) |
+| Frontend | Blade Template + Boostrap 5 |
 | Font | Baloo 2 (heading), Plus Jakarta Sans (body), IBM Plex Mono (angka/kode) |
 | Autentikasi | Manual (Laravel Auth + custom Middleware role) |
 
 ---
-
-## 🎨 Desain UI
-
-Tema visual **"Laundry Fresh"** — full color, tidak menggunakan template admin panel generik:
-
-| Warna | Hex | Fungsi |
-|---|---|---|
-| Ink | `#10192E` | Teks utama & elemen gelap |
-| Suds Blue | `#2D8CFF` | Warna primer |
-| Detergent Teal | `#17B8A6` | Warna sekunder |
-| Bubblegum | `#FF5D8F` | Aksen (highlight/hapus) |
-| Sunbeam | `#FFC94A` | Aksen (status baru/warning) |
-| Cloud | `#F4F8FC` | Background terang |
-
-Fitur UI tambahan:
-- Layout **Sidebar + Topbar** dengan navigasi otomatis sesuai level user
-- **Realtime clock** di halaman login & topbar
-- Status online (titik hijau) pada avatar user
-- Efek **"sobekan tiket laundry"** (perforated edge) pada kartu statistik & total transaksi
 
 ---
 
@@ -170,9 +152,9 @@ Buka browser ke **http://127.0.0.1:8000**
 
 | Role | Email | Password |
 |---|---|---|
-| Administrator | `admin@laundry.com` | `password` |
-| Operator | `operator@laundry.com` | `password` |
-| Pimpinan | `pimpinan@laundry.com` | `password` |
+| Administrator | `admin@laundry.com` | `password hubungi pemilik repo` |
+| Operator | `operator@laundry.com` | `password hubungi pemilik repo` |
+| Pimpinan | `pimpinan@laundry.com` | `password hubungi pemilik repo` |
 
 > ⚠️ Disarankan mengganti password default ini sebelum digunakan di lingkungan produksi.
 
@@ -185,6 +167,7 @@ Buka browser ke **http://127.0.0.1:8000**
    - Tambahkan data Customer melalui menu *Customer*
    - Tambahkan Jenis Service beserta harga (contoh: Cuci & Gosok Rp5.000/kg)
    - Tambahkan akun Operator/Pimpinan baru jika diperlukan melalui menu *User*
+   - Menambahkan semua fitur yang nantinya diperlukan
 3. **Sebagai Operator:**
    - Buka menu *Transaksi Laundry* → *Buat Transaksi Baru*
    - Pilih customer, pilih satu/lebih jenis jasa, isi berat (qty)
@@ -235,3 +218,5 @@ resources/
 ## 📄 Lisensi
 
 Project ini dibuat untuk keperluan **Ujikom Junior Web Programming — PPKD Jakarta Pusat, Tahun Ajaran 2026**.
+
+## Salam Hangat dari Pengembang piss ✌🏿😁
