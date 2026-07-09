@@ -1,6 +1,6 @@
 # 🫧 Fresh Laundry — Sistem Informasi Laundry
 
-Sistem Informasi / Aplikasi Laundry berbasis web yang dibangun menggunakan **Laravel 13** dan **Tailwind CSS v4**, dikembangkan sebagai project Ujikom Junior Web Programming — PPKD Jakarta Pusat, Tahun Ajaran 2026.
+Sistem Informasi / Aplikasi Laundry berbasis web yang dibangun menggunakan **Laravel 13** dan **Bootstrap 5**, dikembangkan sebagai project Ujikom Junior Web Programming — PPKD Jakarta Pusat, Tahun Ajaran 2026.
 
 Aplikasi ini mengelola alur bisnis laundry secara end-to-end: pendataan customer, transaksi laundry multi-jasa dengan perhitungan otomatis, proses pengambilan pakaian, hingga laporan penjualan — dengan 3 level akses (Administrator, Operator, Pimpinan) yang masing-masing punya hak akses berbeda.
 
