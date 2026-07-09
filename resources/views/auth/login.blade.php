@@ -13,8 +13,8 @@
                         style="max-width: 110%; max-height: 110%; object-fit: contain;">
                 </div>
                 <h3 class="fw-bold text-dark mb-1">Paijo Laundry</h3>
-                <span class="fs-1">🐒</span>
-                <p class="text-muted small">Sistem Informasi Laundry</p>
+                <marquee behavior="" direction=""> <span class="fs-1">🧞‍♂️</span></marquee>
+                <p class="text-muted small">Sistem Informasi Mengelola Transaksi Laundry</p>
             </div>
 
             {{-- Login Card --}}

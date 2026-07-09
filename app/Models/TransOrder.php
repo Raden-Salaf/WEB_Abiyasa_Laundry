@@ -21,6 +21,7 @@ class TransOrder extends Model
         'order_pay',
         'order_change',
         'total',
+        'tax_enabled',
     ];
 
     // Relasi: satu transaksi order dimiliki oleh satu customer (termasuk yang di-soft-delete)

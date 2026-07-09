@@ -66,6 +66,10 @@
                     class="nav-link text-white d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('operator.dashboard') ? 'active bg-primary' : 'opacity-75' }}">
                     <span>🏠</span> <span class="fw-medium text-sm">Dashboard</span>
                 </a>
+                {{-- <a href="{{ route('operator.customer.index') }}"
+                    class="nav-link text-white d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('operator.customer.*') ? 'active bg-primary' : 'opacity-75' }}">
+                    <span>🦧</span> <span class="fw-medium text-sm">Customer</span>
+                </a> --}}
                 <a href="{{ route('operator.order.index') }}"
                     class="nav-link text-white d-flex align-items-center gap-3 px-3 py-2.5 rounded-3 {{ request()->routeIs('operator.order.*') ? 'active bg-primary' : 'opacity-75' }}">
                     <span>🧾</span> <span class="fw-medium text-sm">Transaksi Laundry</span>

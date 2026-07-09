@@ -98,6 +98,14 @@
 
         <div class="card shadow-sm border-0 rounded-4 p-4 mb-4 bg-white">
             <div class="mb-4">
+                <label class="form-label fw-semibold text-dark">Pajak</label>
+                <select name="tax_enabled" id="tax_enabled" class="form-select rounded-3">
+                    <option value="1" {{ old('tax_enabled', '1') == '1' ? 'selected' : '' }}>Aktif</option>
+                    <option value="0" {{ old('tax_enabled', '1') == '0' ? 'selected' : '' }}>Nonaktif</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
                 <label class="form-label fw-semibold text-dark">Pembayaran</label>
                 <select name="pay_now" id="pay_now" class="form-select rounded-3">
                     <option value="0" {{ old('pay_now', '0') == '0' ? 'selected' : '' }}>Bayar Nanti</option>
@@ -156,6 +164,7 @@
             const paymentSubtotal = document.getElementById('payment_subtotal');
             const paymentTax = document.getElementById('payment_tax');
             const paymentTotal = document.getElementById('payment_total');
+            const taxEnabledSelect = document.getElementById('tax_enabled');
 
             function formatRupiah(value) {
                 return value.toLocaleString('id-ID');
@@ -181,7 +190,8 @@
                 const payNow = payNowSelect.value === '1';
                 const paymentAmount = parseNumber(paymentInput.value);
                 const subtotal = getGrandTotal();
-                const tax = Math.round(subtotal * 0.1);
+                const taxEnabled = taxEnabledSelect.value === '1';
+                const tax = taxEnabled ? Math.round(subtotal * 0.1) : 0;
                 const totalDue = subtotal + tax;
                 const change = paymentAmount - totalDue;
 
@@ -206,6 +216,7 @@
             }
 
             payNowSelect.addEventListener('change', togglePaymentSection);
+            taxEnabledSelect.addEventListener('change', updatePaymentInfo);
 
             if (paymentInput) {
                 paymentInput.addEventListener('input', function () {

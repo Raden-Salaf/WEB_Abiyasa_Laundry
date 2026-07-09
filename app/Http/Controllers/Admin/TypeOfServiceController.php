@@ -25,9 +25,11 @@ class TypeOfServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'service_name' => 'required|string|max:50',
+            'service_name' => ['required', 'string', 'max:50', 'unique:type_of_service,service_name'],
             'price'        => 'required|integer|min:0',
             'description'  => 'nullable|string',
+        ], [
+            'service_name.unique' => 'Nama service sudah ada. Gunakan nama lain.',
         ]);
 
         TypeOfService::create($request->only('service_name', 'price', 'description'));
@@ -45,9 +47,11 @@ class TypeOfServiceController extends Controller
     public function update(Request $request, TypeOfService $service)
     {
         $request->validate([
-            'service_name' => 'required|string|max:50',
+            'service_name' => ['required', 'string', 'max:50', 'unique:type_of_service,service_name,' . $service->id],
             'price'        => 'required|integer|min:0',
             'description'  => 'nullable|string',
+        ], [
+            'service_name.unique' => 'Nama service sudah ada. Gunakan nama lain.',
         ]);
 
         $service->update($request->only('service_name', 'price', 'description'));

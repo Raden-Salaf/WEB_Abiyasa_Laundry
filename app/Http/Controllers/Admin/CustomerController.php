@@ -54,7 +54,7 @@ class CustomerController extends Controller
 
         $customer->update($request->only('customer_name', 'phone', 'address'));
 
-        return redirect()->route('admin.customer.index')->with('success', 'Customer berhasil diperbarui.');
+        return redirect()->route('admin.customer.index',)->with('success', 'Customer berhasil diperbarui.');
     }
 
     // Menghapus data customer (soft delete karena Model pakai SoftDeletes)

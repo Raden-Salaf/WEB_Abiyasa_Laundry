@@ -1,7 +1,8 @@
 <x-layout-app :title="'Edit User'">
 
     <div class="mb-4">
-        <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted small">&larr; Kembali ke Data User</a>
+        <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted small">&larr; Kembali ke Data
+            User</a>
         <h3 class="fw-bold text-dark mt-2">Edit User</h3>
     </div>
 
@@ -34,13 +35,12 @@
 
             <div class="mb-3">
                 <label class="form-label fw-semibold text-dark">Password</label>
-                <input type="password" name="password"
-                    class="form-control rounded-3"
+                <input type="password" name="password" class="form-control rounded-3"
                     placeholder="Kosongkan jika tidak ingin mengubah">
             </div>
 
             <div class="mb-4">
-                <label class="form-label fw-semibold text-dark">Level</label>
+                <label class="form-label fw-semibold text-dark">Role</label>
                 <select name="id_level" required class="form-select rounded-3">
                     @foreach ($levels as $level)
                         <option value="{{ $level->id }}" {{ old('id_level', $user->id_level) == $level->id ? 'selected' : '' }}>
@@ -54,7 +54,8 @@
                 <button type="submit" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
                     Update
                 </button>
-                <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted fw-semibold small">Batal</a>
+                <a href="{{ route('admin.user.index') }}"
+                    class="text-decoration-none text-muted fw-semibold small">Batal</a>
             </div>
         </form>
     </div>

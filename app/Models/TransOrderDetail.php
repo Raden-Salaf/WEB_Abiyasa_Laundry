@@ -14,6 +14,7 @@ class TransOrderDetail extends Model
     protected $fillable = [
         'id_order',
         'id_service',
+        'price_per_kg',
         'qty',
         'subtotal', // hasil perhitungan: harga jasa * qty
         'notes',

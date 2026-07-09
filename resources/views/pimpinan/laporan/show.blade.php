@@ -16,7 +16,8 @@
             <div class="card-body d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3">
                 <div>
                     <h2 class="fw-bold mb-1">{{ $order->order_code }}</h2>
-                    <p class="text-secondary small mb-0">Detail transaksi customer, status pengambilan, dan status pembayaran.</p>
+                    <p class="text-secondary small mb-0">Detail transaksi customer, status pengambilan, dan status
+                        pembayaran.</p>
                 </div>
                 <div class="d-flex flex-wrap gap-2">
                     {{-- Badge status pengambilan: kuning = baru (status 0), hijau = sudah diambil (status 1) --}}
@@ -44,7 +45,8 @@
             {{-- Kartu info customer --}}
             <div class="card border-0 shadow-sm rounded-4 mb-4">
                 <div class="card-body">
-                    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+                    <div
+                        class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
                         <div>
                             <h5 class="fw-semibold mb-1">Info Customer</h5>
                             <p class="text-secondary small mb-0">Informasi pelanggan dan tanggal transaksi.</p>
@@ -58,7 +60,8 @@
                         <div class="col-md-6 col-lg-4">
                             <div class="bg-light rounded-3 p-3 h-100">
                                 <p class="text-secondary small mb-1">Nama</p>
-                                <p class="fw-medium mb-0">{{ $order->customer->customer_name ?? 'Pelanggan Terhapus' }}</p>
+                                <p class="fw-medium mb-0">{{ $order->customer->customer_name ?? 'Pelanggan Terhapus' }}
+                                </p>
                             </div>
                         </div>
                         <div class="col-md-6 col-lg-4">
@@ -116,8 +119,11 @@
                                 <tr>
                                     <td class="px-3 fw-medium">{{ $detail->service->service_name }}</td>
                                     <td>{{ $detail->qty }}</td>
-                                    <td class="font-monospace">Rp {{ number_format($detail->service->price, 0, ',', '.') }}</td>
-                                    <td class="font-monospace fw-semibold text-success">Rp {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
+                                    <td class="font-monospace">Rp
+                                        {{ number_format($detail->price_per_kg ?? $detail->service->price, 0, ',', '.') }}
+                                    </td>
+                                    <td class="font-monospace fw-semibold text-success">Rp
+                                        {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
                                     <td class="text-secondary">{{ $detail->notes ?? '-' }}</td>
                                 </tr>
                             @endforeach
@@ -131,14 +137,17 @@
         <div class="col-xl-4">
 
             {{-- Kartu ringkasan pembayaran, warna gradient sebagai penekanan visual --}}
-            <div class="card border-0 shadow-lg rounded-4 mb-4 text-white" style="background: linear-gradient(135deg, #2D8CFF, #17B8A6);">
+            <div class="card border-0 shadow-lg rounded-4 mb-4 text-white"
+                style="background: linear-gradient(135deg, #2D8CFF, #17B8A6);">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-start gap-3">
                         <div>
-                            <p class="small text-uppercase mb-2" style="letter-spacing: .15em; opacity: .8;">Ringkasan Pembayaran</p>
+                            <p class="small text-uppercase mb-2" style="letter-spacing: .15em; opacity: .8;">Ringkasan
+                                Pembayaran</p>
                             <h3 class="fw-bold mb-0">Rp {{ number_format($order->total, 0, ',', '.') }}</h3>
                         </div>
-                        <span class="badge rounded-pill bg-white bg-opacity-25 text-white text-uppercase small px-3 py-2">
+                        <span
+                            class="badge rounded-pill bg-white bg-opacity-25 text-white text-uppercase small px-3 py-2">
                             {{ $order->order_pay > 0 ? 'Selesai' : 'Belum Bayar' }}
                         </span>
                     </div>
@@ -151,11 +160,13 @@
                     </div>
                     <div class="d-flex justify-content-between small mb-2">
                         <span class="opacity-75">Dibayar</span>
-                        <span class="fw-medium">{{ $order->order_pay > 0 ? 'Rp ' . number_format($order->order_pay, 0, ',', '.') : '-' }}</span>
+                        <span
+                            class="fw-medium">{{ $order->order_pay > 0 ? 'Rp ' . number_format($order->order_pay, 0, ',', '.') : '-' }}</span>
                     </div>
                     <div class="d-flex justify-content-between small">
                         <span class="opacity-75">Kembalian</span>
-                        <span class="fw-medium">{{ $order->order_change > 0 ? 'Rp ' . number_format($order->order_change, 0, ',', '.') : '-' }}</span>
+                        <span
+                            class="fw-medium">{{ $order->order_change > 0 ? 'Rp ' . number_format($order->order_change, 0, ',', '.') : '-' }}</span>
                     </div>
                 </div>
             </div>

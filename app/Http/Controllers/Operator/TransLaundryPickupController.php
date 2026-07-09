@@ -38,8 +38,9 @@ class TransLaundryPickupController extends Controller
     public function store(Request $request, TransOrder $order)
     {
         $request->validate([
-            'notes'     => 'nullable|string',
-            'order_pay' => 'required|numeric|min:0',
+            'notes'       => 'nullable|string',
+            'tax_enabled' => 'required|in:0,1',
+            'order_pay'   => 'required|numeric|min:0',
         ]);
 
         // Cegah double-process kalau ada yang submit form dua kali
@@ -48,8 +49,9 @@ class TransLaundryPickupController extends Controller
         }
 
         $order->load('details');
+        $taxEnabled = (bool) $request->input('tax_enabled', $order->tax_enabled ?? 1);
         $subtotal = $order->details->sum('subtotal');
-        $tax = round($subtotal * 0.1);
+        $tax = $taxEnabled ? round($subtotal * 0.1) : 0;
         $totalDue = $subtotal + $tax;
         $payment = $request->order_pay;
 
@@ -58,7 +60,7 @@ class TransLaundryPickupController extends Controller
         }
 
         // Gunakan transaction supaya insert pickup & update status order konsisten (atomic)
-        DB::transaction(function () use ($request, $order, $payment, $totalDue) {
+        DB::transaction(function () use ($request, $order, $payment, $totalDue, $taxEnabled) {
 
             // Catat riwayat pengambilan
             TransLaundryPickup::create([
@@ -75,6 +77,7 @@ class TransLaundryPickupController extends Controller
                 'order_pay'      => $payment,
                 'order_change'   => $payment - $totalDue,
                 'total'          => $totalDue,
+                'tax_enabled'    => $taxEnabled,
             ]);
         });
 

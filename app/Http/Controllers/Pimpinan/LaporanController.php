@@ -24,6 +24,9 @@ class LaporanController extends Controller
 
         // Hitung total omzet keseluruhan dari hasil filter (bukan cuma yang tampil di halaman ini)
         $totalOmzet = (clone $query)->sum('total');
+        $totalKembalian = (clone $query)->sum('order_change');
+        $omzetKotor = $totalOmzet + $totalKembalian;
+        $totalTransaksi = (clone $query)->count();
 
         // Hitung jumlah transaksi yang statusnya masih baru vs sudah diambil, untuk ringkasan
         $totalBaru        = (clone $query)->where('order_status', 0)->count();
@@ -32,6 +35,9 @@ class LaporanController extends Controller
         return view('pimpinan.laporan.index', compact(
             'orders',
             'totalOmzet',
+            'totalKembalian',
+            'omzetKotor',
+            'totalTransaksi',
             'totalBaru',
             'totalSudahDiambil'
         ));

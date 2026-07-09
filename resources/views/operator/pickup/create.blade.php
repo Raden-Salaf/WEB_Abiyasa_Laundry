@@ -48,8 +48,9 @@
     </div>
 
     @php
-        $subtotal = $order->total;
-        $tax = round($subtotal * 0.1);
+        $subtotal = $order->details->sum('subtotal');
+        $taxEnabled = old('tax_enabled', $order->tax_enabled ?? 1);
+        $tax = $taxEnabled ? round($subtotal * 0.1) : 0;
         $totalDue = $subtotal + $tax;
         $isPrepaid = $order->order_pay > 0;
         $oldPayment = old('order_pay');
@@ -67,15 +68,17 @@
     <div class="card shadow-sm border-0 rounded-4 bg-primary bg-gradient text-white p-4 mb-4" style="max-width: 320px;">
         <div class="mb-3 d-flex justify-content-between align-items-center">
             <span class="fw-semibold text-white-50">Subtotal</span>
-            <span class="font-monospace fw-bold">Rp {{ number_format($subtotal, 0, ',', '.') }}</span>
+            <span id="summary_subtotal" class="font-monospace fw-bold">Rp
+                {{ number_format($subtotal, 0, ',', '.') }}</span>
         </div>
         <div class="mb-3 d-flex justify-content-between align-items-center">
             <span class="fw-semibold text-white-50">Pajak 10%</span>
-            <span class="font-monospace fw-bold">Rp {{ number_format($tax, 0, ',', '.') }}</span>
+            <span id="summary_tax" class="font-monospace fw-bold">Rp {{ number_format($tax, 0, ',', '.') }}</span>
         </div>
         <div class="d-flex justify-content-between align-items-center border-top border-white border-opacity-25 pt-3">
             <span class="fw-semibold text-white-50">Total Bayar</span>
-            <span class="font-monospace fs-4 fw-bold">Rp {{ number_format($totalDue, 0, ',', '.') }}</span>
+            <span id="summary_total_due" class="font-monospace fs-4 fw-bold">Rp
+                {{ number_format($totalDue, 0, ',', '.') }}</span>
         </div>
     </div>
 
@@ -87,6 +90,14 @@
             <input type="hidden" name="order_pay" id="order_pay"
                 value="{{ old('order_pay', $isPrepaid ? $order->order_pay : 0) }}">
             <input type="hidden" id="total_due" value="{{ $totalDue }}">
+
+            <div class="mb-4">
+                <label class="form-label fw-semibold text-dark">Pajak</label>
+                <select name="tax_enabled" id="tax_enabled" class="form-select rounded-3">
+                    <option value="1" {{ (string) $taxEnabled === '1' ? 'selected' : '' }}>Aktif</option>
+                    <option value="0" {{ (string) $taxEnabled === '0' ? 'selected' : '' }}>Nonaktif</option>
+                </select>
+            </div>
 
             <div class="mb-4">
                 <label class="form-label fw-semibold text-dark">Jumlah Bayar</label>
@@ -124,7 +135,11 @@
             const paymentInput = document.getElementById('payment_amount');
             const orderPayInput = document.getElementById('order_pay');
             const changeAmount = document.getElementById('change_amount');
-            const totalDue = Number(document.getElementById('total_due').value) || 0;
+            const taxEnabledSelect = document.getElementById('tax_enabled');
+            const summarySubtotal = document.getElementById('summary_subtotal');
+            const summaryTax = document.getElementById('summary_tax');
+            const summaryTotalDue = document.getElementById('summary_total_due');
+            const totalDueInput = document.getElementById('total_due');
             const isPrepaid = {{ $isPrepaid ? 'true' : 'false' }};
 
             function formatRupiah(value) {
@@ -137,9 +152,21 @@
 
             function updateChange() {
                 const paid = parseNumber(paymentInput.value);
+                const taxEnabled = taxEnabledSelect.value === '1';
+                const subtotal = Number({{ $subtotal }});
+                const tax = taxEnabled ? Math.round(subtotal * 0.1) : 0;
+                const totalDue = subtotal + tax;
                 orderPayInput.value = paid;
+                totalDueInput.value = totalDue;
+                summarySubtotal.textContent = 'Rp ' + formatRupiah(subtotal);
+                summaryTax.textContent = 'Rp ' + formatRupiah(tax);
+                summaryTotalDue.textContent = 'Rp ' + formatRupiah(totalDue);
                 const change = paid - totalDue;
                 changeAmount.textContent = 'Rp ' + formatRupiah(Math.max(change, 0));
+            }
+
+            if (taxEnabledSelect) {
+                taxEnabledSelect.addEventListener('change', updateChange);
             }
 
             if (!isPrepaid && paymentInput) {
@@ -155,14 +182,17 @@
                 changeAmount.textContent = 'Rp ' + formatRupiah({{ $order->order_change }});
             }
 
+            updateChange();
+
             if (form) {
                 form.addEventListener('submit', function (e) {
+                    const totalDue = Number(totalDueInput.value) || 0;
                     const paid = Number(orderPayInput.value);
                     if (paid < totalDue || paid === 0) {
                         e.preventDefault();
                         Swal.fire({
                             title: 'Pembayaran tidak valid',
-                            text: 'Jumlah bayar kurang atau tidak sesuai. Pastikan membayar total + pajak 10%.',
+                            text: 'Jumlah bayar kurang atau tidak sesuai. Pastikan membayar total yang sesuai dengan pengaturan pajak.',
                             icon: 'error',
                             confirmButtonColor: '#3b82f6',
                             background: '#ffffff',

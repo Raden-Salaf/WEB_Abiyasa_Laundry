@@ -1,7 +1,8 @@
 <x-layout-app :title="'Tambah User'">
 
     <div class="mb-4">
-        <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted small">&larr; Kembali ke Data User</a>
+        <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted small">&larr; Kembali ke Data
+            User</a>
         <h3 class="fw-bold text-dark mt-2">Tambah User</h3>
     </div>
 
@@ -21,29 +22,26 @@
 
             <div class="mb-3">
                 <label class="form-label fw-semibold text-dark">Nama</label>
-                <input type="text" name="name" value="{{ old('name') }}" required
-                    class="form-control rounded-3"
+                <input type="text" name="name" value="{{ old('name') }}" required class="form-control rounded-3"
                     placeholder="Nama lengkap user">
             </div>
 
             <div class="mb-3">
                 <label class="form-label fw-semibold text-dark">Email</label>
-                <input type="email" name="email" value="{{ old('email') }}" required
-                    class="form-control rounded-3"
+                <input type="email" name="email" value="{{ old('email') }}" required class="form-control rounded-3"
                     placeholder="user@laundry.com">
             </div>
 
             <div class="mb-3">
                 <label class="form-label fw-semibold text-dark">Password</label>
-                <input type="password" name="password" required
-                    class="form-control rounded-3"
+                <input type="password" name="password" required class="form-control rounded-3"
                     placeholder="Minimal 6 karakter">
             </div>
 
             <div class="mb-4">
-                <label class="form-label fw-semibold text-dark">Level</label>
+                <label class="form-label fw-semibold text-dark">Role</label>
                 <select name="id_level" required class="form-select rounded-3">
-                    <option value="">-- Pilih Level --</option>
+                    <option value="">-- Pilih Role --</option>
                     @foreach ($levels as $level)
                         <option value="{{ $level->id }}" {{ old('id_level') == $level->id ? 'selected' : '' }}>
                             {{ $level->level_name }}
@@ -56,7 +54,8 @@
                 <button type="submit" class="btn btn-primary px-4 py-2 rounded-3 fw-semibold">
                     Simpan
                 </button>
-                <a href="{{ route('admin.user.index') }}" class="text-decoration-none text-muted fw-semibold small">Batal</a>
+                <a href="{{ route('admin.user.index') }}"
+                    class="text-decoration-none text-muted fw-semibold small">Batal</a>
             </div>
         </form>
     </div>

@@ -19,7 +19,7 @@
                         <th class="px-4 py-3 fw-semibold">No</th>
                         <th class="px-4 py-3 fw-semibold">Nama</th>
                         <th class="px-4 py-3 fw-semibold">Email</th>
-                        <th class="px-4 py-3 fw-semibold">Level</th>
+                        <th class="px-4 py-3 fw-semibold">Role</th>
                         <th class="px-4 py-3 fw-semibold text-end">Aksi</th>
                     </tr>
                 </thead>

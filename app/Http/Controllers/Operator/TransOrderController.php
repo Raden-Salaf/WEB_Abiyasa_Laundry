@@ -40,16 +40,19 @@ class TransOrderController extends Controller
             'qty.*'              => 'required|numeric|min:0.1',
             'notes'              => 'nullable|array',
             'pay_now'            => 'required|in:0,1',
+            'tax_enabled'        => 'required|in:0,1',
             'order_pay'          => 'nullable|numeric|min:0',
             'order_change'       => 'nullable|numeric|min:0',
         ]);
 
         // Gunakan DB Transaction supaya proses insert header + detail bersifat atomic
         // (kalau salah satu gagal, semua di-rollback, tidak ada data setengah jadi)
-        DB::transaction(function () use ($request) {
+        $taxEnabled = (bool) $request->input('tax_enabled', 1);
+
+        DB::transaction(function () use ($request, $taxEnabled) {
 
             // Generate kode order unik, format: LAUNDRY-YYYYMMDD-XXXX
-            $orderCode = 'LAUNDRY-' . now()->format('Ymd') . '-' . str_pad(TransOrder::whereDate('created_at', now())->count() + 1, 4, '0', STR_PAD_LEFT);
+            $orderCode = 'LDR-' . now()->format('Ymd') . '-' . str_pad(TransOrder::whereDate('created_at', now())->count() + 1, 4, '0', STR_PAD_LEFT);
 
             // Buat header transaksi terlebih dahulu, total sementara 0 (akan diupdate setelah detail dihitung)
             $order = TransOrder::create([
@@ -61,6 +64,7 @@ class TransOrderController extends Controller
                 'order_pay'      => 0,
                 'order_change'   => 0,
                 'total'          => 0,
+                'tax_enabled'    => $taxEnabled,
             ]);
 
             $grandTotal = 0;
@@ -72,25 +76,26 @@ class TransOrderController extends Controller
                 $subtotal = $service->price * $qty; // sesuai rumus dokumentasi: Subtotal = harga * qty
 
                 TransOrderDetail::create([
-                    'id_order'   => $order->id,
-                    'id_service' => $service->id,
-                    'qty'        => $qty,
-                    'subtotal'   => $subtotal,
-                    'notes'      => $request->notes[$index] ?? null,
+                    'id_order'     => $order->id,
+                    'id_service'   => $service->id,
+                    'price_per_kg' => $service->price,
+                    'qty'          => $qty,
+                    'subtotal'     => $subtotal,
+                    'notes'        => $request->notes[$index] ?? null,
                 ]);
 
                 $grandTotal += $subtotal;
             }
 
-            $tax = round($grandTotal * 0.1);
+            $tax = $taxEnabled ? round($grandTotal * 0.1) : 0;
             $totalDue = $grandTotal + $tax;
 
-            $orderData = ['total' => $grandTotal];
+            $orderData = ['total' => $totalDue, 'tax_enabled' => $taxEnabled];
             if ($request->pay_now == '1') {
                 $payment = $request->order_pay ?? 0;
                 if ($payment < $totalDue) {
                     throw \Illuminate\Validation\ValidationException::withMessages([
-                        'order_pay' => 'Jumlah pembayaran harus sama atau lebih besar dari total transaksi termasuk pajak.',
+                        'order_pay' => 'Jumlah pembayaran harus sama atau lebih besar dari total transaksi' . ($taxEnabled ? ' termasuk pajak.' : ' tanpa pajak.'),
                     ]);
                 }
 

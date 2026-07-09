@@ -56,10 +56,12 @@
                         <tr>
                             <td class="px-4 py-3 fw-bold text-dark">{{ $detail->service->service_name }}</td>
                             <td class="px-4 py-3 text-dark">{{ $detail->qty }}</td>
-                            <td class="px-4 py-3 text-muted font-monospace">Rp
-                                {{ number_format($detail->service->price, 0, ',', '.') }}</td>
+                            <td class="px-4 py-3 text-muted font-monospace disabled">Rp
+                                {{ number_format($detail->price_per_kg ?? $detail->service->price, 0, ',', '.') }}
+                            </td>
                             <td class="px-4 py-3 font-monospace fw-bold text-success">Rp
-                                {{ number_format($detail->subtotal, 0, ',', '.') }}</td>
+                                {{ number_format($detail->subtotal, 0, ',', '.') }}
+                            </td>
                             <td class="px-4 py-3 text-muted">{{ $detail->notes ?? '-' }}</td>
                         </tr>
                     @endforeach

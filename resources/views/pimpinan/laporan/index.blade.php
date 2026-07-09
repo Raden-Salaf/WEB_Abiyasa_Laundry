@@ -48,6 +48,47 @@
         </div>
     </div>
 
+    <div class="card shadow-sm border-0 rounded-4 p-4 mb-4 bg-white">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="fw-bold text-dark m-0">Detail Omzet</h5>
+            <span class="badge bg-info text-white rounded-pill px-3 py-2">Berdasarkan transaksi pada filter saat
+                ini</span>
+        </div>
+        <div class="row g-3">
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 bg-light">
+                    <div class="text-muted small">Omzet Bersih</div>
+                    <div class="fw-bold text-success font-monospace">Rp {{ number_format($totalOmzet, 0, ',', '.') }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 bg-light">
+                    <div class="text-muted small">Total Kembalian</div>
+                    <div class="fw-bold text-warning font-monospace">Rp
+                        {{ number_format($totalKembalian, 0, ',', '.') }}</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 bg-light">
+                    <div class="text-muted small">Omzet Kotor</div>
+                    <div class="fw-bold text-primary font-monospace">Rp {{ number_format($omzetKotor, 0, ',', '.') }}
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="border rounded-3 p-3 bg-light">
+                    <div class="text-muted small">Jumlah Transaksi</div>
+                    <div class="fw-bold text-dark font-monospace">{{ $totalTransaksi }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="mt-3 small text-muted">
+            Sumber perhitungan berasal dari total transaksi yang sudah selesai, ditambah total kembalian dari kolom
+            pembayaran yang tercatat pada setiap transaksi.
+        </div>
+    </div>
+
     {{-- Tabel detail transaksi --}}
     <div class="card shadow-sm border-0 rounded-4 overflow-hidden">
         <div class="table-responsive">
@@ -68,14 +109,17 @@
                     @forelse ($orders as $order)
                         <tr>
                             <td class="px-4 py-3 text-muted">
-                                {{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}</td>
+                                {{ ($orders->currentPage() - 1) * $orders->perPage() + $loop->iteration }}
+                            </td>
                             <td class="px-4 py-3 font-monospace fw-bold text-dark">{{ $order->order_code }}</td>
                             <td class="px-4 py-3 text-dark">{{ $order->customer->customer_name ?? 'Pelanggan Terhapus' }}
                             </td>
                             <td class="px-4 py-3 text-muted">
-                                {{ \Carbon\Carbon::parse($order->order_date)->translatedFormat('d M Y') }}</td>
+                                {{ \Carbon\Carbon::parse($order->order_date)->translatedFormat('d M Y') }}
+                            </td>
                             <td class="px-4 py-3 font-monospace fw-bold text-success">Rp
-                                {{ number_format($order->total, 0, ',', '.') }}</td>
+                                {{ number_format($order->total, 0, ',', '.') }}
+                            </td>
                             <td class="px-4 py-3">
                                 @if ($order->order_status == 0)
                                     <span
